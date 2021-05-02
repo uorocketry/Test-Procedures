@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <title>SocketIO example</title>
+      <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+      <script type="text/javascript">
+         $(document).ready(function() {
+         
+           // sending a connect request to the server.
+           var socket = io.connect('http://127.0.0.1:5000');
+         
+           socket.on('after connect', function(msg) {
+               console.log('After connect', msg);
+               document.getElementById("log").innerHTML = ('<br>' + $('<div/>').text('Received: ' + msg.data).html());
+          });        
+         });
+      </script>
+   </head>
+   <body>
+    <h1>SocketIO Example</h1>
+    <h2>Receive:</h2>
+    <div id="log"></div>
+   </body>
+</html>
