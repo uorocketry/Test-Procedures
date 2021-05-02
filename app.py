@@ -2,12 +2,12 @@ import threading
 import time
 from flask_socketio import SocketIO, emit
 from flask import Flask, render_template, escape, request
-from flask_socketio import SocketIO, emit
+
 
 app = Flask(__name__)
 socketio = SocketIO(app)
 
-i = 0
+page1 = {"avionics": ["task 1", "task 2"], "prop": ["task1", "task2", "task3"]}
 
 @app.route('/')
 def index():
@@ -16,17 +16,21 @@ def index():
 @socketio.on('connect')
 def test_connect():
     print("connected")
-    #emit('after connect',  {'data':'Lets dance'})
+    createNewPage("first title", "this is a short description")
 
 def thread_function(name):
     print(name)
-    global i
+    i = 0
     
     while True:
         print(f"ok{i}")
         i += 1
-        socketio.emit('after connect',  {'data':f'{i}'})
-        time.sleep(0.01)
+        if(i == 5):
+            createNewPage("other title", "this is a short description 2")
+        time.sleep(1)
+
+def createNewPage(title, description):
+    socketio.emit('load page',  {'title':title, 'description':description, "content":page1})
 
 
 def startThread():
