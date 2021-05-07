@@ -1,10 +1,10 @@
 import threading
 import time
 from flask_socketio import SocketIO, emit
-from flask import Flask, render_template, escape, request
+from flask import Flask, render_template, send_from_directory, escape, request
 
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static', static_folder='../client/src', template_folder='../client/templates')
 socketio = SocketIO(app)
 
 page1 = {"avionics": ["task 1", "task 2"], "prop": ["task1", "task2", "task3"]}
